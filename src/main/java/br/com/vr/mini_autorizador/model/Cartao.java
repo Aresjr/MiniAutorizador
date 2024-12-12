@@ -1,9 +1,7 @@
 package br.com.vr.mini_autorizador.model;
 
 import br.com.vr.mini_autorizador.dto.CartaoRequest;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,12 +14,13 @@ import java.math.BigDecimal;
 public class Cartao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String numeroCartao;
     private String senha;
     private BigDecimal valor;
 
-    private final Integer VALOR_PADRAO_INICIAL = 500;
+    private final static Integer VALOR_PADRAO_INICIAL = 500;
 
     public Cartao(CartaoRequest cartaoRequest) {
         this.numeroCartao = cartaoRequest.getNumeroCartao();

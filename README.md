@@ -9,6 +9,7 @@ JUnit e Mockito para testes unitários e Flapdoodle - biblioteca para testes de 
 ## Nenhum IF
 
 Para não utilizar nenhum IF é possível utilizar Optionals - são ótimos para condições, Streams caso necessário iterações e Maps em caso de alteração de mapeamento de dados.
+Pode ser utilizado também diferentes exceções para diferenciar os cenários HTTP de resposta.
 
 ---
 

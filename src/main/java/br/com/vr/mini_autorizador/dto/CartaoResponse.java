@@ -6,11 +6,11 @@ import lombok.Value;
 @Value
 public class CartaoResponse {
 
-    String numeroCartao;
     String senha;
+    String numeroCartao;
 
     public CartaoResponse(Cartao cartao) {
-        this.numeroCartao = cartao.getNumeroCartao();
         this.senha = cartao.getSenha();
+        this.numeroCartao = cartao.getNumeroCartao();
     }
 }

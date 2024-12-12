@@ -1,15 +1,17 @@
 package br.com.vr.mini_autorizador.model;
 
-import br.com.vr.mini_autorizador.dto.CartaoRequest;
+import br.com.vr.mini_autorizador.dto.CriarCartaoRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@Setter
 @Table
 public class Cartao {
 
@@ -22,9 +24,9 @@ public class Cartao {
 
     private final static Integer VALOR_PADRAO_INICIAL = 500;
 
-    public Cartao(CartaoRequest cartaoRequest) {
-        this.numeroCartao = cartaoRequest.getNumeroCartao();
-        this.senha = cartaoRequest.getSenha();
+    public Cartao(CriarCartaoRequest criarCartaoRequest) {
+        this.numeroCartao = criarCartaoRequest.getNumeroCartao();
+        this.senha = criarCartaoRequest.getSenha();
         this.valor = new BigDecimal(VALOR_PADRAO_INICIAL).setScale(2);
     }
 

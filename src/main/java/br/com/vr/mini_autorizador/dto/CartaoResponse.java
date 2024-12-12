@@ -1,9 +1,9 @@
 package br.com.vr.mini_autorizador.dto;
 
 import br.com.vr.mini_autorizador.model.Cartao;
-import lombok.Value;
+import lombok.Getter;
 
-@Value
+@Getter
 public class CartaoResponse {
 
     String senha;

@@ -1,6 +1,6 @@
 package br.com.vr.mini_autorizador.service;
 
-import br.com.vr.mini_autorizador.dto.CartaoRequest;
+import br.com.vr.mini_autorizador.dto.CriarCartaoRequest;
 import br.com.vr.mini_autorizador.dto.CartaoResponse;
 import br.com.vr.mini_autorizador.exception.CartaoExistenteException;
 import br.com.vr.mini_autorizador.exception.CartaoNaoEncontradoException;
@@ -17,19 +17,18 @@ public class CartaoService {
     @Autowired
     private CartaoRepository cartaoRepository;
 
-    public CartaoResponse criarCartao(CartaoRequest cartaoRequest) throws CartaoExistenteException {
-        cartaoRepository.findByNumeroCartao(cartaoRequest.getNumeroCartao())
+    public CartaoResponse criarCartao(CriarCartaoRequest criarCartaoRequest) throws CartaoExistenteException {
+        cartaoRepository.findByNumeroCartao(criarCartaoRequest.getNumeroCartao())
             .ifPresent(cartao -> {
                 throw new CartaoExistenteException(cartao);
             });
-        Cartao cartao = cartaoRepository.save(new Cartao(cartaoRequest));
+        Cartao cartao = cartaoRepository.save(new Cartao(criarCartaoRequest));
         return new CartaoResponse(cartao);
     }
 
     public BigDecimal obterSaldoCartao(String numeroCartao) {
         return cartaoRepository.findByNumeroCartao(numeroCartao)
-                .map(Cartao::getValor)
-                .orElseThrow(() -> new CartaoNaoEncontradoException(numeroCartao));
+                .map(Cartao::getValor).orElseThrow(() -> new CartaoNaoEncontradoException(numeroCartao));
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.vr.mini_autorizador.controller;
 
-import br.com.vr.mini_autorizador.dto.CartaoRequest;
+import br.com.vr.mini_autorizador.dto.CriarCartaoRequest;
 import br.com.vr.mini_autorizador.dto.CartaoResponse;
 import br.com.vr.mini_autorizador.exception.CartaoExistenteException;
 import br.com.vr.mini_autorizador.exception.CartaoNaoEncontradoException;
@@ -20,10 +20,10 @@ public class CartaoController {
     private CartaoService cartaoService;
 
     @PostMapping
-    public ResponseEntity<CartaoResponse> criarCartao(@RequestBody CartaoRequest cartaoRequest) {
+    public ResponseEntity<CartaoResponse> criarCartao(@RequestBody CriarCartaoRequest criarCartaoRequest) {
         CartaoResponse response;
         try {
-            response = cartaoService.criarCartao(cartaoRequest);
+            response = cartaoService.criarCartao(criarCartaoRequest);
         } catch (CartaoExistenteException e) {
             return new ResponseEntity<>(new CartaoResponse(e.getCartao()), HttpStatus.UNPROCESSABLE_ENTITY);
         }

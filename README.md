@@ -1,14 +1,16 @@
 # Mini Autorizador
 
-## Stack 
+## Stack
 
-Spring Boot 3, Java 17 e MongoDB, a stack que mais tenho familiaridade e que utilizo no momento.
-Lombok e Codeium (biblioteca IA com autocomplete semelhante ao Copilot, porém gratuito) também utilizados.
+Spring Boot 3, Java 17 e MySQL
+Lombok e Codeium (biblioteca IA utilizada na IDE com autocomplete semelhante ao Copilot, porém gratuito) também utilizados.
 JUnit e Mockito para testes unitários e Flapdoodle - biblioteca para testes de componente na qual um banco real sobre no Docker para escopo de teste.
 
 ## Nenhum IF
 
-Para não utilizar nenhum IF é possível utilizar Optionals - são ótimos para condições, Streams caso necessário iterações e Maps em caso de alteração de mapeaamento de dados.
+Para não utilizar nenhum IF é possível utilizar Optionals - são ótimos para condições, Streams caso necessário iterações e Maps em caso de alteração de mapeamento de dados.
+
+---
 
 # Teste de programação - VR Benefícios
 

@@ -30,7 +30,8 @@ public class CartaoService {
 
     public BigDecimal obterSaldoCartao(String numeroCartao) {
         return cartaoRepository.findByNumeroCartao(numeroCartao)
-                .map(Cartao::getValor).orElseThrow(() -> new CartaoNaoEncontradoException(numeroCartao));
+                .map(Cartao::getValor)
+                .orElseThrow(() -> new CartaoNaoEncontradoException(numeroCartao));
     }
 
 }

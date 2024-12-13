@@ -22,12 +22,10 @@ public class Cartao {
     private String senha;
     private BigDecimal valor;
 
-    private final static Integer VALOR_PADRAO_INICIAL = 500;
-
-    public Cartao(CriarCartaoRequest criarCartaoRequest) {
+    public Cartao(CriarCartaoRequest criarCartaoRequest, BigDecimal valor) {
         this.numeroCartao = criarCartaoRequest.getNumeroCartao();
         this.senha = criarCartaoRequest.getSenha();
-        this.valor = new BigDecimal(VALOR_PADRAO_INICIAL).setScale(2);
+        this.valor = valor;
     }
 
 }

@@ -2,14 +2,47 @@
 
 ## Stack
 
-Spring Boot 3, Java 17 e MySQL
+Spring Boot 3, Java 17 e MySQL.
+
 Lombok e Codeium (biblioteca IA utilizada na IDE com autocomplete semelhante ao Copilot, porém gratuito) também utilizados.
-JUnit e Mockito para testes unitários e Flapdoodle - biblioteca para testes de componente na qual um banco real sobre no Docker para escopo de teste.
+
+JUnit e Mockito para testes unitários.
 
 ## Nenhum IF
 
-Para não utilizar nenhum IF é possível utilizar Optionals - são ótimos para condições, Streams caso necessário iterações e Maps em caso de alteração de mapeamento de dados.
-Pode ser utilizado também diferentes exceções para diferenciar os cenários HTTP de resposta.
+Para não utilizar nenhum IF foram utilizados Optionals e diferentes tipos de exceções.
+
+## Cenários
+
+Os cenários já estão descritos nos requisitos do teste porém decidi numerá-los para melhor identificar no momento dos commits e criar uma mini documentação.
+
+## 1 - Criar um cartão
+### 1.1 - Salvar cartão no banco com sucesso
+#### Salva o cartão com sucesso no banco e retorna código HTTP 201
+### 1.2 - Cartão existente
+#### Não salva o cartão pois já existe com o mesmo número e retorna código HTTP 422
+### 1.3 - Credenciais inválidas
+#### Não realiza nenhuma operação e retorna código HTTP 401
+
+## 2 - Obter Saldo
+### 2.1 - Cartão com saldo
+#### Retorna o saldo do cartão com código HTTP 200
+### 2.2 - Cartão não existe
+#### Não retorna nenhuma informação do saldo e retorna código HTTP 404
+### 2.3 - Credenciais inválidas
+#### Não retorna nenhuma informação do saldo e retorna código HTTP 401
+
+## 3 - Realizar uma transação
+### 3.1 - Transação autorizada
+#### Realiza a transação, diminui o saldo no banco e retorna código HTTP 200
+### 3.2 - Saldo Insuficiente
+#### Retorna "SALDO_INSUFICIENTE" e retorna código HTTP 422
+### 3.3 - Senha Inválida
+#### Retorna "SENHA_INVALIDA" e retorna código HTTP 422
+### 3.4 - Cartão Inexistente
+#### Retorna "CARTAO_INEXISTENTE" e retorna código HTTP 422
+### 3.5 - Credenciais Inválidas
+#### Não realiza nenhuma operação e retorna código HTTP 401
 
 ---
 

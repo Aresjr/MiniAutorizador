@@ -8,6 +8,7 @@ import br.com.vr.mini_autorizador.model.Cartao;
 import br.com.vr.mini_autorizador.repository.CartaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -17,6 +18,7 @@ public class CartaoService {
     @Autowired
     private CartaoRepository cartaoRepository;
 
+    @Transactional
     public CartaoResponse criarCartao(CriarCartaoRequest criarCartaoRequest) throws CartaoExistenteException {
         cartaoRepository.findByNumeroCartao(criarCartaoRequest.getNumeroCartao())
             .ifPresent(cartao -> {

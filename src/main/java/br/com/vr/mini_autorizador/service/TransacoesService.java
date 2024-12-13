@@ -10,6 +10,7 @@ import br.com.vr.mini_autorizador.model.Cartao;
 import br.com.vr.mini_autorizador.repository.CartaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -20,6 +21,7 @@ public class TransacoesService {
     @Autowired
     private CartaoRepository cartaoRepository;
 
+    @Transactional
     public MensagemTransacaoCartao realizarSaqueCartao(SaqueCartaoRequest saqueCartaoRequest)
             throws TransacaoException {
         Cartao cartao = cartaoRepository.findByNumeroCartao(saqueCartaoRequest.getNumeroCartao())
@@ -30,11 +32,10 @@ public class TransacoesService {
             .orElseThrow(SenhaErradaCartaoException::new);
 
         BigDecimal saldoAposSaque = saldoAtualCartao.subtract(saqueCartaoRequest.getValor());
-        BigDecimal saldoAtualizado = Optional.ofNullable(
-            saldoAposSaque.compareTo(BigDecimal.ZERO) >= 0 ? saldoAposSaque : null)
-            .orElseThrow(SaldoInsuficienteException::new);
-
-        cartao.setValor(saldoAtualizado);
+        cartao.setValor(
+            Optional.ofNullable(saldoAposSaque.compareTo(BigDecimal.ZERO) >= 0 ? saldoAposSaque : null)
+                .orElseThrow(SaldoInsuficienteException::new)
+        );
         cartaoRepository.save(cartao);
 
         return MensagemTransacaoCartao.OK;

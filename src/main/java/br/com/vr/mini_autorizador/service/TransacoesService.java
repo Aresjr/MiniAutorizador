@@ -4,7 +4,7 @@ import br.com.vr.mini_autorizador.dto.SaqueCartaoRequest;
 import br.com.vr.mini_autorizador.enums.MensagemTransacaoCartao;
 import br.com.vr.mini_autorizador.exception.CartaoInexistenteException;
 import br.com.vr.mini_autorizador.exception.SaldoInsuficienteException;
-import br.com.vr.mini_autorizador.exception.SenhaErradaCartaoException;
+import br.com.vr.mini_autorizador.exception.SenhaInvalidaCartaoException;
 import br.com.vr.mini_autorizador.exception.TransacaoException;
 import br.com.vr.mini_autorizador.model.Cartao;
 import br.com.vr.mini_autorizador.repository.CartaoRepository;
@@ -29,7 +29,7 @@ public class TransacoesService {
 
         BigDecimal saldoAtualCartao = Optional.ofNullable(
                 cartao.getSenha().equals(saqueCartaoRequest.getSenhaCartao()) ? cartao.getValor() : null)
-            .orElseThrow(SenhaErradaCartaoException::new);
+            .orElseThrow(SenhaInvalidaCartaoException::new);
 
         BigDecimal saldoAposSaque = saldoAtualCartao.subtract(saqueCartaoRequest.getValor());
         cartao.setValor(

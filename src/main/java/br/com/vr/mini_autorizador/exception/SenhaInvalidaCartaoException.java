@@ -4,9 +4,9 @@ import br.com.vr.mini_autorizador.enums.MensagemTransacaoCartao;
 import lombok.Getter;
 
 @Getter
-public class SenhaErradaCartaoException extends TransacaoException {
+public class SenhaInvalidaCartaoException extends TransacaoException {
 
-    public SenhaErradaCartaoException() {
+    public SenhaInvalidaCartaoException() {
         super(MensagemTransacaoCartao.SENHA_INVALIDA);
     }
 

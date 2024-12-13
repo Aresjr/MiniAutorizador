@@ -17,14 +17,14 @@ public class TransacoesController {
     private TransacoesService transacoesService;
 
     @PostMapping
-    public ResponseEntity<MensagemTransacaoCartao> saqueCartao(@RequestBody SaqueCartaoRequest saqueCartaoRequest) {
+    public ResponseEntity<String> saqueCartao(@RequestBody SaqueCartaoRequest saqueCartaoRequest) {
         MensagemTransacaoCartao response;
         try {
             response = transacoesService.realizarSaqueCartao(saqueCartaoRequest);
         } catch (TransacaoException e) {
-            return new ResponseEntity<>(e.getMensagemTransacaoCartao(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(e.getMensagemTransacaoCartao().toString(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response.toString(), HttpStatus.CREATED);
     }
 
 }

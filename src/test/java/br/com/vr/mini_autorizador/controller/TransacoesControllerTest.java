@@ -65,7 +65,7 @@ class TransacoesControllerTest {
                     .with(httpBasic(USUARIO, SENHA))
             )
             .andExpect(status().isCreated())
-            .andExpect(content().string(MensagemTransacaoCartao.OK.name()));
+            .andExpect(content().string(MensagemTransacaoCartao.OK.toString()));
     }
 
     @Test
@@ -105,7 +105,7 @@ class TransacoesControllerTest {
                     .with(httpBasic(USUARIO, SENHA))
             )
             .andExpect(status().isUnprocessableEntity())
-            .andExpect(content().string(MensagemTransacaoCartao.SALDO_INSUFICIENTE.name()));
+            .andExpect(content().string(MensagemTransacaoCartao.SALDO_INSUFICIENTE.toString()));
     }
 
     @Test
@@ -125,7 +125,7 @@ class TransacoesControllerTest {
                     .with(httpBasic(USUARIO, SENHA))
             )
             .andExpect(status().isUnprocessableEntity())
-            .andExpect(content().string(MensagemTransacaoCartao.CARTAO_INEXISTENTE.name()));
+            .andExpect(content().string(MensagemTransacaoCartao.CARTAO_INEXISTENTE.toString()));
     }
 
     @Test
@@ -145,7 +145,7 @@ class TransacoesControllerTest {
                     .with(httpBasic(USUARIO, SENHA))
             )
             .andExpect(status().isUnprocessableEntity())
-            .andExpect(content().string(MensagemTransacaoCartao.SENHA_INVALIDA.name()));
+            .andExpect(content().string(MensagemTransacaoCartao.SENHA_INVALIDA.toString()));
     }
 
 }

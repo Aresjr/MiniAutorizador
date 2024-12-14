@@ -2,12 +2,14 @@ package br.com.vr.mini_autorizador.model;
 
 import br.com.vr.mini_autorizador.dto.CriarCartaoRequest;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@AllArgsConstructor
 @Entity
 @Getter
 @NoArgsConstructor

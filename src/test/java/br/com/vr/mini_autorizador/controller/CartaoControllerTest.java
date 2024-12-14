@@ -3,6 +3,7 @@ package br.com.vr.mini_autorizador.controller;
 import br.com.vr.mini_autorizador.dto.CartaoResponse;
 import br.com.vr.mini_autorizador.dto.CriarCartaoRequest;
 import br.com.vr.mini_autorizador.exception.CartaoExistenteException;
+import br.com.vr.mini_autorizador.exception.CartaoNaoEncontradoException;
 import br.com.vr.mini_autorizador.model.Cartao;
 import br.com.vr.mini_autorizador.service.CartaoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,6 +44,7 @@ class CartaoControllerTest {
     private final static String URL_CARTOES = "/cartoes";
     private final static String URL_SALDO_CARTAO = URL_CARTOES + "/{numeroCartao}";
     private final static String NUMERO_CARTAO = "6549873025634501";
+    private final static String NUMERO_CARTAO_INEXISTENTE = "6549873025634501111";
     private final static String SENHA_CARTAO = "1234";
     private final static String USUARIO = "username";
     private final static String SENHA = "password";
@@ -136,6 +138,22 @@ class CartaoControllerTest {
                         .with(httpBasic(USUARIO, SENHA_ERRADA))
                 )
                 .andExpect(status().isUnauthorized())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    void whenObterSaldoCartaoInexistente_shouldReturnCartaoNaoEncontrado() throws Exception {
+        Mockito.when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_INEXISTENTE))
+                .thenThrow(new CartaoNaoEncontradoException(NUMERO_CARTAO_INEXISTENTE));
+
+        this.mockMvc.perform(
+                    get(URL_SALDO_CARTAO, NUMERO_CARTAO_INEXISTENTE)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .with(httpBasic(USUARIO, SENHA))
+                )
+                .andExpect(status().isNotFound())
                 .andExpect(content().string(""));
     }
 

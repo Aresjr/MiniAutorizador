@@ -30,8 +30,4 @@ public class Cartao {
         this.valor = valor;
     }
 
-    public interface CartaoSaldo {
-        BigDecimal getValor();
-    }
-
 }

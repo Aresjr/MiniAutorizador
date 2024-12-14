@@ -28,11 +28,11 @@ public class TransacoesService {
         Cartao cartao = cartaoRepository.findByNumeroCartao(saqueRequest.getNumeroCartao())
                 .orElseThrow(CartaoInexistenteException::new);
 
-        Optional.ofNullable(senhaValidaCartao(cartao,
+        Optional.ofNullable(isSenhaValidaCartao(cartao,
                         saqueRequest.getSenhaCartao()) ? cartao.getValor() : null)
                 .orElseThrow(SenhaInvalidaCartaoException::new);
 
-        atualizaSaldoCartao(saqueRequest.getNumeroCartao(), saqueRequest.getValor());
+        atualizaSaldoCartao(cartao, saqueRequest.getValor());
 
         return MensagemTransacaoCartao.OK;
     }
@@ -50,25 +50,19 @@ public class TransacoesService {
      * and the first transaction re-reads the row, getting different values the second time (a "non-repeatable read")
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
-    private void atualizaSaldoCartao(String numeroCartao, BigDecimal valorSaque) {
-        BigDecimal saldoCartao = obterSaldoCartao(numeroCartao);
-        Optional.ofNullable(saqueDentroDoSaldo(saldoCartao, valorSaque) ? saldoCartao : null)
-                .map(saldoAtual -> cartaoRepository.atualizaSaldoCartao(numeroCartao,
+    private void atualizaSaldoCartao(Cartao cartao, BigDecimal valorSaque) {
+        BigDecimal saldoCartao = cartao.getValor();
+        Optional.ofNullable(isSaqueDentroDoSaldo(saldoCartao, valorSaque) ? saldoCartao : null)
+                .map(saldoAtual -> cartaoRepository.atualizaSaldoCartao(cartao.getNumeroCartao(),
                         saldoAtual.subtract(valorSaque)))
                 .orElseThrow(SaldoInsuficienteException::new);
     }
 
-    private BigDecimal obterSaldoCartao(String numeroCartao) {
-        return cartaoRepository.findValorByNumeroCartao(numeroCartao)
-                .map(Cartao.CartaoSaldo::getValor)
-                .orElseThrow(CartaoInexistenteException::new);
-    }
-
-    private Boolean senhaValidaCartao(Cartao cartao, String senha) {
+    private Boolean isSenhaValidaCartao(Cartao cartao, String senha) {
         return cartao.getSenha().equals(senha);
     }
 
-    private Boolean saqueDentroDoSaldo(BigDecimal saldo, BigDecimal saque) {
+    private Boolean isSaqueDentroDoSaldo(BigDecimal saldo, BigDecimal saque) {
         return saldo.subtract(saque).compareTo(BigDecimal.ZERO) >= 0;
     }
 

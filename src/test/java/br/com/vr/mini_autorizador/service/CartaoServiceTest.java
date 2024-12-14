@@ -3,6 +3,7 @@ package br.com.vr.mini_autorizador.service;
 import br.com.vr.mini_autorizador.dto.CartaoResponse;
 import br.com.vr.mini_autorizador.dto.CriarCartaoRequest;
 import br.com.vr.mini_autorizador.exception.CartaoExistenteException;
+import br.com.vr.mini_autorizador.exception.CartaoNaoEncontradoException;
 import br.com.vr.mini_autorizador.model.Cartao;
 import br.com.vr.mini_autorizador.repository.CartaoRepository;
 import org.assertj.core.api.Assertions;
@@ -72,6 +73,18 @@ class CartaoServiceTest {
 
         BigDecimal saldoCartao = cartaoService.obterSaldoCartao(NUMERO_CARTAO);
         Assertions.assertThat(saldoCartao).isEqualTo(VALOR_PADRAO_INICIAL);
+    }
+
+    @Test
+    void whenObterSaldoCartaoNaoExistente_shouldReturnCartaoInexistente() {
+        Mockito.when(cartaoRepository.findByNumeroCartao(NUMERO_CARTAO))
+                .thenReturn(Optional.empty());
+
+        CartaoNaoEncontradoException exception = assertThrows(CartaoNaoEncontradoException.class,
+                () -> cartaoService.obterSaldoCartao(NUMERO_CARTAO));
+
+        Assertions.assertThat(exception).isNotNull();
+        Assertions.assertThat(exception.getNumeroCartao()).isEqualTo(NUMERO_CARTAO);
     }
 
 }

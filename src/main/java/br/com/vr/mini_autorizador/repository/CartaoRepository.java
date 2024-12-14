@@ -15,8 +15,6 @@ public interface CartaoRepository extends JpaRepository<Cartao, String> {
 
     Optional<Cartao> findByNumeroCartao(String numeroCartao);
 
-    Optional<Cartao.CartaoSaldo> findValorByNumeroCartao(String numeroCartao);
-
     @Modifying
     @Query("update Cartao set valor = :saldoNovo where numeroCartao = :numeroCartao")
     Integer atualizaSaldoCartao(@Param("numeroCartao") String numeroCartao, @Param("saldoNovo") BigDecimal saldoNovo);
